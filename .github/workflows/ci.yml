@@ -1,0 +1,29 @@
+name: SwiftUIPlus CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: macos-13
+
+    steps:
+    - name: ⬇️ Checkout code
+      uses: actions/checkout@v3
+
+    - name: 🧪 Run Swift tests with coverage
+      run: swift test --enable-code-coverage
+
+    - name: 📊 Generate coverage report
+      run: |
+        mkdir -p .build/reports
+        xcrun llvm-cov export -format="lcov" \
+          .build/debug/SwiftUIPlusPackageTests.xctest/Contents/MacOS/SwiftUIPlusPackageTests \
+          -instr-profile .build/debug/codecov/default.profdata > .build/reports/coverage.lcov
+
+    - name: ✅ Show test summary
+      run: swift test
+
