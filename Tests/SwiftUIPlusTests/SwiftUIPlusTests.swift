@@ -1,5 +1,5 @@
 import XCTest
-import SwiftUICore
+import SwiftUI
 @testable import SwiftUIPlus
 
 final class SwiftUIPlusTests: XCTestCase {
