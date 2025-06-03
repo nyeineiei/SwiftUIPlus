@@ -16,16 +16,9 @@ jobs:
 
     - name: 🧪 Run Swift tests with coverage
       run: |
-       swift test --enable-code-coverage \
-       -Xswiftc -profile-generate \
-       -Xswiftc -profile-coverage-mapping
-      
-    - name: 📊 Generate coverage report
-      run: |
-        mkdir -p .build/reports
-        xcrun llvm-cov export -format="lcov" \
-          .build/debug/SwiftUIPlusPackageTests.xctest/Contents/MacOS/SwiftUIPlusPackageTests \
-          -instr-profile .build/debug/codecov/default.profdata > .build/reports/coverage.lcov
+        swift test --enable-code-coverage \
+          -Xswiftc -profile-generate \
+          -Xswiftc -profile-coverage-mapping
 
     - name: 📊 Generate coverage report
       run: |
@@ -39,7 +32,7 @@ jobs:
           -instr-profile .build/debug/codecov/default.profdata \
           > coverage.lcov
 
-    - name: Upload coverage report
+    - name: 📤 Upload coverage report
       uses: actions/upload-artifact@v3
       with:
         name: code-coverage
