@@ -32,8 +32,8 @@ jobs:
           -instr-profile .build/debug/codecov/default.profdata \
           > coverage.lcov
 
-    - name: 📤 Upload coverage report
-      uses: actions/upload-artifact@v3
+      - name: 📤 Upload coverage report
+      uses: actions/upload-artifact@v3.1.3
       with:
         name: code-coverage
         path: coverage.lcov
