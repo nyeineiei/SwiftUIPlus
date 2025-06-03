@@ -26,17 +26,14 @@ jobs:
 
     - name: ✅ Show test summary
       run: swift test
-      
-    - name: Generate coverage report
+    - name: 📊 Generate coverage report
       run: |
+        if [ ! -f .build/debug/codecov/default.profdata ]; then
+          echo "⚠️ Coverage data not found"
+          exit 1
+        fi
+
         xcrun llvm-cov export -format="lcov" \
           .build/debug/SwiftUIPlusPackageTests.xctest/Contents/MacOS/SwiftUIPlusPackageTests \
           -instr-profile .build/debug/codecov/default.profdata \
           > coverage.lcov
-
-    - name: Upload coverage to GitHub Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: code-coverage-report
-        path: coverage.lcov
-
