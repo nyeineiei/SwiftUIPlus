@@ -41,3 +41,4 @@ final class PlaceholderTextEditorTests: XCTestCase {
         XCTAssertNotNil(resolvedFont)
     }
 }
+

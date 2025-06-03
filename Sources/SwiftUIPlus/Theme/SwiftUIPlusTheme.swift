@@ -13,6 +13,22 @@ public struct SwiftUIPlusTheme: Sendable {
     public var textFieldBackgroundColor: Color
     public var focusedBorderColor: Color
     public var placeholderAlignment: Alignment
+    
+    public init(
+        placeholderFont: Font,
+        placeholderTextColor: Color,
+        textColor: Color,
+        textFieldBackgroundColor: Color,
+        focusedBorderColor: Color,
+        placeholderAlignment: Alignment
+    ) {
+        self.placeholderFont = placeholderFont
+        self.placeholderTextColor = placeholderTextColor
+        self.textColor = textColor
+        self.textFieldBackgroundColor = textFieldBackgroundColor
+        self.focusedBorderColor = focusedBorderColor
+        self.placeholderAlignment = placeholderAlignment
+    }
 
     public static let `default` = SwiftUIPlusTheme(
         placeholderFont: .body,
