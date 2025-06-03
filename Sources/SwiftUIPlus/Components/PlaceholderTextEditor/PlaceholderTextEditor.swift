@@ -16,31 +16,19 @@ internal struct PlaceholderTextEditor: View {
     
     @Binding private var text: String
     private let placeholder: String
-    
-    // Environment theme
     @Environment(\.swiftUIPlusTheme) private var theme
-    
-    var body: some View {
-        ZStack(alignment: resolvedAlignment) {
-            TextEditor(text: $text)
-                .foregroundColor(resolvedTextColor)
-                .background(resolvedBackgroundColor)
 
-            if text.isEmpty {
-                Text(placeholder)
-                    .font(resolvedFont)
-                    .foregroundColor(resolvedPlaceholderColor)
-                    .padding(.top, 8)
-                    .padding(.leading, 5)
-                    .allowsHitTesting(false)
-            }
-        }
-    }
-    
-    // Init
     init(text: Binding<String>, placeholder: String) {
         self._text = text
         self.placeholder = placeholder
+    }
+
+    var body: some View {
+        if #available(iOS 15.0, *) {
+            PlaceholderTextEditor_iOS15(text: $text, placeholder: placeholder)
+        } else {
+            PlaceholderTextEditor_iOS14(text: $text, placeholder: placeholder)
+        }
     }
 
     // MARK: - Modifiers
@@ -97,3 +85,65 @@ extension PlaceholderTextEditor {
         customTextFieldBackgroundColor ?? theme.textFieldBackgroundColor
     }
 }
+
+private struct PlaceholderTextEditor_iOS14: View {
+    @Binding var text: String
+    let placeholder: String
+    @Environment(\.swiftUIPlusTheme) private var theme
+    @State private var isFocused: Bool = false
+
+    var body: some View {
+        ZStack(alignment: theme.placeholderAlignment) {
+            TextEditor(text: $text)
+                .foregroundColor(theme.textColor)
+                .background(theme.textFieldBackgroundColor)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(isFocused ? theme.focusedBorderColor : .clear, lineWidth: 1)
+                )
+                .onTapGesture {
+                    isFocused = true
+                }
+
+            if text.isEmpty {
+                Text(placeholder)
+                    .font(theme.placeholderFont)
+                    .foregroundColor(theme.placeholderTextColor)
+                    .padding(.top, 8)
+                    .padding(.leading, 5)
+                    .allowsHitTesting(false)
+            }
+        }
+    }
+}
+
+@available(iOS 15.0, *)
+private struct PlaceholderTextEditor_iOS15: View {
+    @Binding var text: String
+    let placeholder: String
+    @Environment(\.swiftUIPlusTheme) private var theme
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        ZStack(alignment: theme.placeholderAlignment) {
+            TextEditor(text: $text)
+                .focused($isFocused)
+                .foregroundColor(theme.textColor)
+                .background(theme.textFieldBackgroundColor)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(isFocused ? theme.focusedBorderColor : .clear, lineWidth: 1)
+                )
+
+            if text.isEmpty {
+                Text(placeholder)
+                    .font(theme.placeholderFont)
+                    .foregroundColor(theme.placeholderTextColor)
+                    .padding(.top, 8)
+                    .padding(.leading, 5)
+                    .allowsHitTesting(false)
+            }
+        }
+    }
+}
+
