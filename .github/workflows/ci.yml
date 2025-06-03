@@ -27,8 +27,6 @@ jobs:
           .build/debug/SwiftUIPlusPackageTests.xctest/Contents/MacOS/SwiftUIPlusPackageTests \
           -instr-profile .build/debug/codecov/default.profdata > .build/reports/coverage.lcov
 
-    - name: ✅ Show test summary
-      run: swift test
     - name: 📊 Generate coverage report
       run: |
         if [ ! -f .build/debug/codecov/default.profdata ]; then
@@ -40,3 +38,9 @@ jobs:
           .build/debug/SwiftUIPlusPackageTests.xctest/Contents/MacOS/SwiftUIPlusPackageTests \
           -instr-profile .build/debug/codecov/default.profdata \
           > coverage.lcov
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage
+        path: coverage.lcov
