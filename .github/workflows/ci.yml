@@ -11,29 +11,29 @@ jobs:
     runs-on: macos-13
 
     steps:
-    - name: ⬇️ Checkout code
-      uses: actions/checkout@v3
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
 
-    - name: 🧪 Run Swift tests with coverage
-      run: |
-        swift test --enable-code-coverage \
-          -Xswiftc -profile-generate \
-          -Xswiftc -profile-coverage-mapping
+      - name: 🧪 Run Swift tests with coverage
+        run: |
+          swift test --enable-code-coverage \
+            -Xswiftc -profile-generate \
+            -Xswiftc -profile-coverage-mapping
 
-    - name: 📊 Generate coverage report
-      run: |
-        if [ ! -f .build/debug/codecov/default.profdata ]; then
-          echo "⚠️ Coverage data not found"
-          exit 1
-        fi
+      - name: 📊 Generate coverage report
+        run: |
+          if [ ! -f .build/debug/codecov/default.profdata ]; then
+            echo "⚠️ Coverage data not found"
+            exit 1
+          fi
 
-        xcrun llvm-cov export -format="lcov" \
-          .build/debug/SwiftUIPlusPackageTests.xctest/Contents/MacOS/SwiftUIPlusPackageTests \
-          -instr-profile .build/debug/codecov/default.profdata \
-          > coverage.lcov
+          xcrun llvm-cov export -format="lcov" \
+            .build/debug/SwiftUIPlusPackageTests.xctest/Contents/MacOS/SwiftUIPlusPackageTests \
+            -instr-profile .build/debug/codecov/default.profdata \
+            > coverage.lcov
 
       - name: 📤 Upload coverage report
-      uses: actions/upload-artifact@v3.1.3
-      with:
-        name: code-coverage
-        path: coverage.lcov
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: code-coverage
+          path: coverage.lcov
