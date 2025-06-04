@@ -13,6 +13,7 @@ internal struct PlaceholderTextEditor: View {
     private var customFontSize: CGFloat?
     private var customTextColor: Color?
     private var customTextFieldBackgroundColor: Color?
+    private var customFocusedBorderColor: Color?
     
     @Binding private var text: String
     private let placeholder: String
@@ -25,7 +26,7 @@ internal struct PlaceholderTextEditor: View {
 
     var body: some View {
         if #available(iOS 15.0, *) {
-            PlaceholderTextEditor_iOS15(text: $text, placeholder: placeholder)
+            PlaceholderTextEditor_iOS15(text: $text, placeholder: placeholder, focusedBorderColor: customFocusedBorderColor ?? .clear)
         } else {
             PlaceholderTextEditor_iOS14(text: $text, placeholder: placeholder)
         }
@@ -62,27 +63,11 @@ internal struct PlaceholderTextEditor: View {
         copy.customTextFieldBackgroundColor = color
         return copy
     }
-}
-
-extension PlaceholderTextEditor {
-    private var resolvedFont: Font {
-        customFont ?? theme.placeholderFont
-    }
-
-    private var resolvedPlaceholderColor: Color {
-        customPlaceholderColor ?? theme.placeholderTextColor
-    }
-
-    private var resolvedAlignment: Alignment {
-        customAlignment ?? theme.placeholderAlignment
-    }
-
-    private var resolvedTextColor: Color {
-        customTextColor ?? theme.textColor
-    }
-
-    private var resolvedBackgroundColor: Color {
-        customTextFieldBackgroundColor ?? theme.textFieldBackgroundColor
+    
+    func FocusedBorderColor(_ color: Color) -> Self {
+        var copy = self
+        copy.customFocusedBorderColor = color
+        return copy
     }
 }
 
@@ -121,6 +106,7 @@ private struct PlaceholderTextEditor_iOS14: View {
 private struct PlaceholderTextEditor_iOS15: View {
     @Binding var text: String
     let placeholder: String
+    let focusedBorderColor: Color
     @Environment(\.swiftUIPlusTheme) private var theme
     @FocusState private var isFocused: Bool
 
@@ -132,7 +118,7 @@ private struct PlaceholderTextEditor_iOS15: View {
                 .background(theme.textFieldBackgroundColor)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(isFocused ? theme.focusedBorderColor : .clear, lineWidth: 1)
+                        .stroke(isFocused ? focusedBorderColor : .clear, lineWidth: 1)
                 )
 
             if text.isEmpty {
