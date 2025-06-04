@@ -17,20 +17,39 @@ internal struct PlaceholderTextEditor: View {
     @Binding private var text: String
     private let placeholder: String
     @Environment(\.swiftUIPlusTheme) private var theme
-
-    init(text: Binding<String>, placeholder: String) {
+    
+    internal init(text: Binding<String>, placeholder: String) {
         self._text = text
         self.placeholder = placeholder
     }
 
     var body: some View {
-        if #available(iOS 15.0, *) {
-            PlaceholderTextEditor_iOS15(text: $text, placeholder: placeholder)
-        } else {
-            PlaceholderTextEditor_iOS14(text: $text, placeholder: placeholder)
+        Group {
+            if #available(iOS 15, *) {
+                PlaceholderTextEditor_iOS15(text: $text, placeholder: placeholder, theme: theme)
+            } else {
+                fallbackBody
+            }
         }
     }
 
+    private var fallbackBody: some View {
+        ZStack(alignment: theme.placeholderAlignment) {
+            TextEditor(text: $text)
+                .foregroundColor(theme.textColor)
+                .background(theme.textFieldBackgroundColor)
+
+            if text.isEmpty {
+                Text(placeholder)
+                    .font(theme.placeholderFont)
+                    .foregroundColor(theme.placeholderTextColor)
+                    .padding(.top, 8)
+                    .padding(.leading, 5)
+                    .allowsHitTesting(false)
+            }
+        }
+    }
+    
     // MARK: - Modifiers
 
     func placeholderFont(_ font: Font) -> Self {
@@ -117,12 +136,12 @@ private struct PlaceholderTextEditor_iOS14: View {
     }
 }
 
-@available(iOS 15.0, *)
+@available(iOS 15, *)
 private struct PlaceholderTextEditor_iOS15: View {
+    @FocusState private var isFocused: Bool
     @Binding var text: String
     let placeholder: String
-    @Environment(\.swiftUIPlusTheme) private var theme
-    @FocusState private var isFocused: Bool
+    let theme: SwiftUIPlusTheme
 
     var body: some View {
         ZStack(alignment: theme.placeholderAlignment) {
@@ -130,10 +149,6 @@ private struct PlaceholderTextEditor_iOS15: View {
                 .focused($isFocused)
                 .foregroundColor(theme.textColor)
                 .background(theme.textFieldBackgroundColor)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(isFocused ? theme.focusedBorderColor : .clear, lineWidth: 1)
-                )
 
             if text.isEmpty {
                 Text(placeholder)
@@ -146,4 +161,3 @@ private struct PlaceholderTextEditor_iOS15: View {
         }
     }
 }
-

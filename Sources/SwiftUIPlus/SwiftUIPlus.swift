@@ -18,6 +18,6 @@ public enum SwiftUIPlus {
         text: Binding<String>,
         placeholder: String
     ) -> some View {
-        PlaceholderTextEditor(text: text, placeholder: placeholder)
+        PlaceholderTextEditorView(text: text, placeholder: placeholder)
     }
 }
