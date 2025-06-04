@@ -26,7 +26,7 @@ internal struct PlaceholderTextEditor: View {
 
     var body: some View {
         if #available(iOS 15.0, *) {
-            PlaceholderTextEditor_iOS15(text: $text, placeholder: placeholder, focusedBorderColor: customFocusedBorderColor ?? .clear)
+            PlaceholderTextEditor_iOS15(text: $text, placeholder: placeholder, focusedBorderColor: customFocusedBorderColor ?? theme.focusedBorderColor)
         } else {
             PlaceholderTextEditor_iOS14(text: $text, placeholder: placeholder)
         }
@@ -66,7 +66,9 @@ internal struct PlaceholderTextEditor: View {
     
     func FocusedBorderColor(_ color: Color) -> Self {
         var copy = self
-        copy.customFocusedBorderColor = color
+        if color != .clear {
+            copy.customFocusedBorderColor = color
+        }
         return copy
     }
 }
