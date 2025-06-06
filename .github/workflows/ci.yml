@@ -20,7 +20,10 @@ jobs:
 
       - name: 🔧 Build SDK
         run: swift build
-
-      - name: 🧪 Run tests
-        run: swift test
+        
+      - name: 🧪 Run Swift tests with coverage
+         run: |
+          swift test --enable-code-coverage \
+            -Xswiftc -profile-generate \
+            -Xswiftc -profile-coverage-mapping
 
