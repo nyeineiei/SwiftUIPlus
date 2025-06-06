@@ -21,8 +21,10 @@ jobs:
       - name: 🔧 Build SDK
         run: swift build
 
-      - name: 🧪 Run Swift tests with coverage
+      
+      - name: 🧪 Run tests on iOS Simulator
         run: |
-          swift test --enable-code-coverage \
-            -Xswiftc -profile-generate \
-            -Xswiftc -profile-coverage-mapping
+          xcodebuild test \
+            -scheme SwiftUIPlus \
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.2' \
+            -enableCodeCoverage YES | xcpretty && exit ${PIPESTATUS[0]}
