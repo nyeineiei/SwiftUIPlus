@@ -1,7 +1,7 @@
 import XCTest
 import SwiftUI
 @testable import SwiftUIPlus
-
+#if os(iOS)
 final class SwiftUIPlusTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
@@ -41,4 +41,4 @@ final class PlaceholderTextEditorTests: XCTestCase {
         XCTAssertNotNil(resolvedFont)
     }
 }
-
+#endif

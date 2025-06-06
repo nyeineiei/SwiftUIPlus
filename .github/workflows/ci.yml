@@ -18,8 +18,9 @@ jobs:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v3
 
-      - name: 🧪 Run iOS tests with xcodebuild
-        run: |
-          xcodebuild test \
-            -scheme SwiftUIPlus \
-            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+      - name: 🔧 Build SDK
+        run: swift build
+
+      - name: 🧪 Run tests
+        run: swift test
+
