@@ -8,6 +8,7 @@
 import SwiftUI
 
 #if DEBUG
+#if os(iOS)
 struct PlaceholderTextEditorView_Previews: PreviewProvider {
     @State static var notes = ""
 
@@ -25,4 +26,5 @@ struct PlaceholderTextEditorView_Previews: PreviewProvider {
         .previewDisplayName("Preview - Caption Style")
     }
 }
+#endif
 #endif

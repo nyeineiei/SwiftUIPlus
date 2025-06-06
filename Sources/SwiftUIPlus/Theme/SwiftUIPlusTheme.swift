@@ -5,7 +5,7 @@
 //  Created by Nyein Ei Ei Tun on 1/6/25.
 //
 import SwiftUI
-
+#if os(iOS)
 public struct SwiftUIPlusTheme: Sendable {
     public var placeholderFont: Font
     public var placeholderTextColor: Color
@@ -50,3 +50,4 @@ public extension EnvironmentValues {
         set { self[SwiftUIPlusEnvironmentKey.self] = newValue }
     }
 }
+#endif

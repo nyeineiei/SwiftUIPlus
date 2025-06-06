@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+#if os(iOS)
 @MainActor
 public struct PlaceholderTextEditorView: View {
     @Binding private var text: String
@@ -48,3 +48,4 @@ public struct PlaceholderTextEditorView: View {
             .FocusedBorderColor(focusedBorderColor)
     }
 }
+#endif

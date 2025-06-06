@@ -5,7 +5,7 @@
 //  Created by Nyein Ei Ei Tun on 2/6/25.
 //
 import SwiftUI
-
+#if os(iOS)
 internal struct PlaceholderTextEditor: View {
     private var customFont: Font?
     private var customPlaceholderColor: Color?
@@ -134,4 +134,4 @@ private struct PlaceholderTextEditor_iOS15: View {
         }
     }
 }
-
+#endif

@@ -1,7 +1,7 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 import SwiftUI
-
+#if os(iOS)
 @MainActor
 public enum SwiftUIPlus {
     /// Creates a SwiftUI TextEditor with a visible placeholder when empty.
@@ -21,3 +21,4 @@ public enum SwiftUIPlus {
         PlaceholderTextEditorView(text: text, placeholder: placeholder)
     }
 }
+#endif
