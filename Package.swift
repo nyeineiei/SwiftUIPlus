@@ -6,7 +6,6 @@ import PackageDescription
 let package = Package(
     name: "SwiftUIPlus",
     platforms: [
-        .macOS(.v11),
         .iOS(.v14)
     ],
     products: [
