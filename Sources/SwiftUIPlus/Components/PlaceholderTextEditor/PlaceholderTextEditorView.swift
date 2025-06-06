@@ -16,6 +16,7 @@ public struct PlaceholderTextEditorView: View {
     private let alignment: Alignment
     private let textColor: Color
     private let backgroundColor: Color
+    private let focusedBorderColor: Color
 
     public init(
         text: Binding<String>,
@@ -24,7 +25,8 @@ public struct PlaceholderTextEditorView: View {
         placeholderColor: Color = .secondary,
         alignment: Alignment = .topLeading,
         textColor: Color = .primary,
-        backgroundColor: Color = .clear
+        backgroundColor: Color = .clear,
+        focusedBorderColor: Color = .clear
     ) {
         self._text = text
         self.placeholder = placeholder
@@ -33,6 +35,7 @@ public struct PlaceholderTextEditorView: View {
         self.alignment = alignment
         self.textColor = textColor
         self.backgroundColor = backgroundColor
+        self.focusedBorderColor = focusedBorderColor
     }
 
     public var body: some View {
@@ -42,5 +45,6 @@ public struct PlaceholderTextEditorView: View {
             .placeholderAlignment(alignment)
             .textColor(textColor)
             .textFieldBackgroundColor(backgroundColor)
+            .FocusedBorderColor(focusedBorderColor)
     }
 }

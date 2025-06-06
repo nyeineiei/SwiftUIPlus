@@ -13,43 +13,25 @@ internal struct PlaceholderTextEditor: View {
     private var customFontSize: CGFloat?
     private var customTextColor: Color?
     private var customTextFieldBackgroundColor: Color?
+    private var customFocusedBorderColor: Color?
     
     @Binding private var text: String
     private let placeholder: String
     @Environment(\.swiftUIPlusTheme) private var theme
-    
-    internal init(text: Binding<String>, placeholder: String) {
+
+    init(text: Binding<String>, placeholder: String) {
         self._text = text
         self.placeholder = placeholder
     }
 
     var body: some View {
-        Group {
-            if #available(iOS 15, *) {
-                PlaceholderTextEditor_iOS15(text: $text, placeholder: placeholder, theme: theme)
-            } else {
-                fallbackBody
-            }
+        if #available(iOS 15.0, *) {
+            PlaceholderTextEditor_iOS15(text: $text, placeholder: placeholder, focusedBorderColor: customFocusedBorderColor ?? theme.focusedBorderColor)
+        } else {
+            PlaceholderTextEditor_iOS14(text: $text, placeholder: placeholder)
         }
     }
 
-    private var fallbackBody: some View {
-        ZStack(alignment: theme.placeholderAlignment) {
-            TextEditor(text: $text)
-                .foregroundColor(theme.textColor)
-                .background(theme.textFieldBackgroundColor)
-
-            if text.isEmpty {
-                Text(placeholder)
-                    .font(theme.placeholderFont)
-                    .foregroundColor(theme.placeholderTextColor)
-                    .padding(.top, 8)
-                    .padding(.leading, 5)
-                    .allowsHitTesting(false)
-            }
-        }
-    }
-    
     // MARK: - Modifiers
 
     func placeholderFont(_ font: Font) -> Self {
@@ -81,27 +63,13 @@ internal struct PlaceholderTextEditor: View {
         copy.customTextFieldBackgroundColor = color
         return copy
     }
-}
-
-extension PlaceholderTextEditor {
-    private var resolvedFont: Font {
-        customFont ?? theme.placeholderFont
-    }
-
-    private var resolvedPlaceholderColor: Color {
-        customPlaceholderColor ?? theme.placeholderTextColor
-    }
-
-    private var resolvedAlignment: Alignment {
-        customAlignment ?? theme.placeholderAlignment
-    }
-
-    private var resolvedTextColor: Color {
-        customTextColor ?? theme.textColor
-    }
-
-    private var resolvedBackgroundColor: Color {
-        customTextFieldBackgroundColor ?? theme.textFieldBackgroundColor
+    
+    func FocusedBorderColor(_ color: Color) -> Self {
+        var copy = self
+        if color != .clear {
+            copy.customFocusedBorderColor = color
+        }
+        return copy
     }
 }
 
@@ -136,12 +104,13 @@ private struct PlaceholderTextEditor_iOS14: View {
     }
 }
 
-@available(iOS 15, *)
+@available(iOS 15.0, *)
 private struct PlaceholderTextEditor_iOS15: View {
-    @FocusState private var isFocused: Bool
     @Binding var text: String
     let placeholder: String
-    let theme: SwiftUIPlusTheme
+    let focusedBorderColor: Color
+    @Environment(\.swiftUIPlusTheme) private var theme
+    @FocusState private var isFocused: Bool
 
     var body: some View {
         ZStack(alignment: theme.placeholderAlignment) {
@@ -149,6 +118,10 @@ private struct PlaceholderTextEditor_iOS15: View {
                 .focused($isFocused)
                 .foregroundColor(theme.textColor)
                 .background(theme.textFieldBackgroundColor)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(isFocused ? focusedBorderColor : .clear, lineWidth: 1)
+                )
 
             if text.isEmpty {
                 Text(placeholder)
@@ -161,3 +134,4 @@ private struct PlaceholderTextEditor_iOS15: View {
         }
     }
 }
+
