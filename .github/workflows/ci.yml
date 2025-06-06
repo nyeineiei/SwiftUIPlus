@@ -21,10 +21,15 @@ jobs:
       - name: 🔧 Build SDK
         run: swift build
 
-      
-      - name: 🧪 Run tests on iOS Simulator
+      - name: 🧪 Run tests with coverage on iOS Simulator
         run: |
           xcodebuild test \
             -scheme SwiftUIPlus \
             -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.2' \
-            -enableCodeCoverage YES | xcpretty && exit ${PIPESTATUS[0]}
+            -enableCodeCoverage YES \
+            -derivedDataPath ./DerivedData \
+            | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: 📊 Export code coverage
+        run: |
+          xcrun xccov view --report --json ./DerivedData/Logs/Test/*.xcresult > coverage.json

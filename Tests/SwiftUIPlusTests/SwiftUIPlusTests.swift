@@ -2,7 +2,7 @@ import XCTest
 import SwiftUI
 @testable import SwiftUIPlus
 
-final class SwiftUIPlusTests: XCTestCase {
+final class SwiftUIPlusThemeTests: XCTestCase {
     func testDefaultThemeValues() {
         let theme = SwiftUIPlusTheme.default
         XCTAssertEqual(theme.placeholderTextColor, .secondary)
@@ -10,7 +10,9 @@ final class SwiftUIPlusTests: XCTestCase {
         XCTAssertEqual(theme.textFieldBackgroundColor, .clear)
         XCTAssertEqual(theme.focusedBorderColor, .blue)
     }
-    
+}
+
+final class PlaceholderTextEditorTests: XCTestCase {
     func testResolvedFontFallback() {
         // Create theme with no font
         let theme = SwiftUIPlusTheme(
