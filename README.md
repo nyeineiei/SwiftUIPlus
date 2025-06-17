@@ -53,5 +53,5 @@ Or add it in Xcode:
 A drop-in replacement for `TextEditor` with built-in support for placeholders and theming.
 
 ### Example Usage:
-![Demo Screenshot](https://github.com/nyeineiei/SwiftUIPlus/blob/main/Screenshots/Screenshot2.png)
-![Demo Screenshot](Screenshots/screenshot2.png)
+![Demo Screenshot](https://github.com/nyeineiei/SwiftUIPlus/blob/main/Screenshots/Screenshot.png)
+![Demo Screenshot](https://github.com/nyeineiei/SwiftUIPlus/blob/main/Screenshots/screenshot2.png)
