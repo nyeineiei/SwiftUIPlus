@@ -52,17 +52,5 @@ Or add it in Xcode:
 
 A drop-in replacement for `TextEditor` with built-in support for placeholders and theming.
 
-```swift
-import SwiftUI
-import SwiftUIPlus
-
-struct ExampleView: View {
-    @State private var text = ""
-
-    var body: some View {
-        PlaceholderTextEditorView(text: $text, placeholder: "Type something...")
-            .padding()
-            .environment(\.swiftUIPlusTheme, .custom)
-    }
-}
-
+### Example Usage:
+![Demo Screenshot](Screenshots/screenshot.png)
