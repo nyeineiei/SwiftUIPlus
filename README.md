@@ -54,3 +54,4 @@ A drop-in replacement for `TextEditor` with built-in support for placeholders an
 
 ### Example Usage:
 ![Demo Screenshot](Screenshots/screenshot.png)
+![Demo Screenshot](Screenshots/screenshot2.png)
